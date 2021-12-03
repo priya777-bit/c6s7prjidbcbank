@@ -40,6 +40,10 @@ create table Account
 alter table Account 
 alter account_open_date set default '0000-00-00';
 
+-- Drop Constraint For Date ..
+
+
+
 -- Alter Set Auto Increment ..
 
 alter table Account auto_increment = 100000000000;
