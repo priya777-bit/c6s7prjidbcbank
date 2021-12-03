@@ -35,14 +35,23 @@ create table Account
     foreign key(customer_id)references customer(customer_id)
 );
 
+-- Show Account Class ..
+
+select * from Account;
+
 -- Set Date To Default..
 
 alter table Account 
-alter account_open_date set default '0000-00-00';
+alter account_open_date set default (current_date);
 
 -- Drop Constraint For Date ..
 
+alter table Account 
+alter column account_open_date drop default;
 
+-- Describe Account ..
+
+describe Account;
 
 -- Alter Set Auto Increment ..
 
@@ -52,5 +61,16 @@ alter table Account auto_increment = 100000000000;
 
 create table Transaction
 (
-	
+	transaction_id mediumint auto_increment,
+    transaction_date date default(current_date),
+    transaction_type char(20),
+    transaction_mode char(20),
+    transaction_balance int,
+    account_no mediumint,
+    foreign key(account_no)references Account(account_no),
+    primary key(transaction_id)
 );
+
+-- Alter Table Transaction To Set Transaction Id ..
+
+alter table Transaction auto_increment=1;
