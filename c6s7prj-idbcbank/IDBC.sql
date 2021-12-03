@@ -35,6 +35,11 @@ create table Account
     foreign key(customer_id)references customer(customer_id)
 );
 
+-- Alter Table To Change Datatype ..
+
+alter table Account
+modify column account_no bigint auto_increment;
+
 -- Show Account Class ..
 
 select * from Account;
@@ -55,7 +60,18 @@ describe Account;
 
 -- Alter Set Auto Increment ..
 
-alter table Account auto_increment = 100000000000;
+alter table Account auto_increment = 100000;
+
+alter table Account 
+auto_increment = 100000000000;
+
+-- Insert Into Account Table ..
+
+insert into Account (account_type,account_balance,account_open_date,customer_id) values('savings',3000,default,100000);
+
+-- Show Account Table ..
+
+select * from Account;
 
 -- Create Transaction Table ..
 
@@ -66,11 +82,24 @@ create table Transaction
     transaction_type char(20),
     transaction_mode char(20),
     transaction_balance int,
-    account_no mediumint,
+    account_no bigint,
     foreign key(account_no)references Account(account_no),
     primary key(transaction_id)
 );
 
+-- Inserting Into Transaction Table ..
+
+insert into transaction (transaction_date,transaction_type,transaction_mode,transaction_balance,account_no) values
+(default,'debit','online',2000,100000000000);
+
 -- Alter Table Transaction To Set Transaction Id ..
 
 alter table Transaction auto_increment=1;
+
+-- Drop Tranaction Table ..
+
+drop table transaction;
+
+-- Show Transaction table ..
+
+select * from transaction;
