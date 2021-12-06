@@ -3,6 +3,10 @@ import java.util.Date;
 
 public class DbOperation
 {
+    int customer_id;
+    long account_no;
+    int transaction_id;
+
     public boolean createCustomerId(String customer_name, Date dob, int customer_phoNo,
                                  String customer_email, String customer_add)
     {
@@ -15,7 +19,7 @@ public class DbOperation
                     "root");
             System.out.println("Coonection Success..");
 
-            String query = "insert into customer(customer_name,customer_dob_customer_phoNo,customer_email" +
+            String query = "insert into customer(customer_name,customer_dob,customer_phoNo,customer_email" +
                     ",customer_add) values(?,?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1,customer_name);
@@ -25,16 +29,15 @@ public class DbOperation
             pst.setString(5,customer_add);
             if ((pst.executeUpdate()) == 1)
             {
-                result = true;
-
                 ResultSet rs = pst.getGeneratedKeys();
                 if (rs.next()) {
-                     int customer_id = rs.getInt(1);
+                     customer_id = rs.getInt(1);
                     System.out.println(customer_id+":"+rs.getString(2)+":"+rs.getDate(3)
                             +":"+rs.getInt(4)+":"+rs.getString(5)+":"
                             +rs.getString(6));
                 }
             }
+            result = true;
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -63,7 +66,7 @@ public class DbOperation
                 {
                     result = true;
 
-                    long account_no=rs.getLong(1);
+                    account_no=rs.getLong(1);
                     System.out.println(account_no+":"+rs.getString(2)+":"+rs.getInt(3)+":"
                             +rs.getDate(4)+":"+rs.getInt(5));
                 }
@@ -100,7 +103,7 @@ public class DbOperation
                 ResultSet rs = pst.getGeneratedKeys();
                 if(rs.next())
                 {
-                    int transaction_id = rs.getInt(1);
+                    transaction_id = rs.getInt(1);
                     System.out.println(transaction_id+":"+rs.getDate(2)+":"+rs.getString(3)
                     +":"+rs.getString(4)+":"+rs.getInt(5)+":"+rs.getLong(6));
                 }
