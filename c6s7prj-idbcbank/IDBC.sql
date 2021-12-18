@@ -18,6 +18,10 @@ drop table customer;
 alter table customer auto_increment = 100000;
 
 select * from customer;
+select * from account;
+select * from transaction;
+
+
 
 insert into customer (customer_name,customer_dob,customer_phoNo,customer_email,customer_add) values
 ('praju','2001-02-27',8303030,'g@ggmail.com','pune'); select last_insert_id();
@@ -34,6 +38,16 @@ create table Account
     customer_id int,
     foreign key(customer_id)references customer(customer_id)
 );
+
+-- Modify Amount Balance ..
+
+alter table account
+modify account_balance int default 0;
+
+-- Modify Account Date .. 
+
+alter table account
+modify account_open_date date default(current_date());
 
 -- Alter Table To Change Datatype ..
 

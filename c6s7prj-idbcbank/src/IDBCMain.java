@@ -20,8 +20,9 @@ public class IDBCMain
         {
             System.out.println(pe);
         }
-        boolean result = dbms.createCustomerId("priya",dt,9999999
-                ,"p@p.gmail.com","nasik");
+        String result = dbms.createAccount("priya",dt,9999999
+                ,"p@p.gmail.com","nasik","savings",100,dt,dt
+                ,"debit","online",100);
         System.out.println(result);
     }
 }
