@@ -23,7 +23,7 @@ public class DbOperation
 
         if(age>=18)
         {
-            System.out.println("Your Eligible To Create Account..Bcoz Your Age Is Greater Than Require Age Greater Than 18: "+age);
+            System.out.println("Your Eligible To Create Account..Bcoz Your Age Is Greater Than Require Age Greater Than 18 \n Your Age Is: "+age);
             result = true;
         }
         return result;
@@ -127,7 +127,7 @@ public class DbOperation
                 int account_bal1=rs.getInt(1);
                 //int account_balance1=rs.getInt(3);
                 System.out.println("Account Balance Is "+account_bal1);
-                if(account_bal1>0)
+                if(account_bal1>amount_withdraw)
                 {account_bal1=account_bal1-amount_withdraw;
                 System.out.println("After Withdraw Account Balance Is.."+account_bal1+" Withdraw Amount "+amount_withdraw);
                 result=true;
@@ -139,10 +139,7 @@ public class DbOperation
                 if((pst2.executeUpdate())==1)
                 {
                     System.out.println("Your Amount Debited..");
-                }}
-                else
-                    System.out.println("Account Balance Is Less Than Amount To Withdraw:"+account_bal1);
-            }
+                }
 
             String query3 = "select transaction_balance from transaction where account_no=?";
             PreparedStatement pst3 = con.prepareStatement(query3);
@@ -153,20 +150,19 @@ public class DbOperation
                 int trans_bal=rs2.getInt(1);
                 //int transaction_id=rs.getInt(1);
                 System.out.println("Before/Last Transaction:"+ trans_bal);
-                if(trans_bal>0){
 
-                String query4 = "update transaction set transaction_balance=? where account_no=?";
+                String query4 = "insert into transaction(transaction_balance,account_no) values(?,?)";
                 PreparedStatement pst4 = con.prepareStatement(query4);
                 pst4.setLong(2,account_no);
                 pst4.setInt(1,amount_withdraw);
                 if((pst4.executeUpdate())==1)
                 {
                     System.out.println("Transaction Is Successful..");
-                }}
-                else
-                {
-                    System.out.println("Transaction Is Unsuccessful");
                 }
+            }
+                }
+                else
+                    System.out.println("Account Balance Is Less Than Amount To Withdraw So Transaction is Unsuccessful:"+account_bal1);
             }
         }
         catch (Exception e) {
@@ -220,14 +216,19 @@ public class DbOperation
                 int transaction_bal=rs2.getInt(1);
                 //int transaction_id=rs.getInt(1);
                 System.out.println("Before/Last Transaction:"+transaction_bal);
+                if(amount_deposit>0){
 
-                String query4 = "update transaction set transaction_balance=? where account_no=?";
+                String query4 = "insert into transaction(transaction_balance,account_no) values(?,?)";
                 PreparedStatement pst4 = con.prepareStatement(query4);
                 pst4.setLong(2,account_no);
                 pst4.setInt(1,amount_deposit);
                 if((pst4.executeUpdate())==1)
                 {
                     System.out.println("Transaction Is Successful..");
+                }}
+                else
+                {
+                    System.out.println("Transaction Is Unsuccessful No Transaction Inputed");
                 }
             }
         }
