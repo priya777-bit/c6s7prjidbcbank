@@ -23,7 +23,7 @@ public class DbOperation
 
         if(age>=18)
         {
-            System.out.println("Your Eligible To Create Account..");
+            System.out.println("Your Eligible To Create Account..Bcoz Your Age Is Greater Than Require Age Greater Than 18: "+age);
             result = true;
         }
         return result;
@@ -153,6 +153,7 @@ public class DbOperation
                 int trans_bal=rs2.getInt(1);
                 //int transaction_id=rs.getInt(1);
                 System.out.println("Before/Last Transaction:"+ trans_bal);
+                if(trans_bal>0){
 
                 String query4 = "update transaction set transaction_balance=? where account_no=?";
                 PreparedStatement pst4 = con.prepareStatement(query4);
@@ -161,6 +162,10 @@ public class DbOperation
                 if((pst4.executeUpdate())==1)
                 {
                     System.out.println("Transaction Is Successful..");
+                }}
+                else
+                {
+                    System.out.println("Transaction Is Unsuccessful");
                 }
             }
         }

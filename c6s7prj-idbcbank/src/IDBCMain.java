@@ -41,7 +41,6 @@ public class IDBCMain
                     try {
                         dt = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                         boolean result = dbms.checkEligibility(dt);
-                        System.out.println("Account Created.."+result);
                     } catch (ParseException pe) {
                         System.out.println(pe);
                     }
@@ -65,15 +64,23 @@ public class IDBCMain
                     String customer_email = sc.next();
                     System.out.println("Enter Customer Address:");
                     String customer_add = sc.next();
-                    System.out.println("Enter Account Type:");
+                    System.out.println("Enter Account Type (Savings/Pay):");
                     String account_type = sc.next();
-                    System.out.println("Enter Transaction Type:");
+                    System.out.println("Enter Transaction Type (Debit/Credit):");
                     String transaction_type = sc.next();
-                    System.out.println("Enter Transaction Mode:");
+                    System.out.println("Enter Transaction Mode (Online/Offline):");
                     String transaction_mode = sc.next();
 
                     List<Object> result = dbms.createAccount(customer_name, dt2, customer_phoNo, customer_email,
                             customer_add, account_type, transaction_type, transaction_mode);
+                    System.out.println(" Congratulations Account Created.."+result);
+                    if(result!=null)
+                    {
+                        System.out.println("CustomerId:"+ result.get(0)+" "+"Account number:"+result.get(1)+" "+"TransactionId:"+result.get(2));
+                    }
+                    else        {
+                        System.out.println("error");
+                    }
                     break;
 
                 case 3:
