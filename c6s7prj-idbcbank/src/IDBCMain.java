@@ -41,6 +41,7 @@ public class IDBCMain
                     try {
                         dt = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                         boolean result = dbms.checkEligibility(dt);
+                        System.out.println("Account Created.."+result);
                     } catch (ParseException pe) {
                         System.out.println(pe);
                     }

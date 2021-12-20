@@ -73,7 +73,7 @@ public class DbOperation
                         ResultSet rs2 = pst2.getGeneratedKeys();
                         if(rs2.next())
                         {
-                            account_no = rs2.getInt(1);
+                            account_no = rs2.getLong(1);
                             result2=account_no;
 
                             String query3 = "insert into transaction(transaction_type,transaction_mode," +
@@ -124,36 +124,39 @@ public class DbOperation
             ResultSet rs = pst.executeQuery();
             while(rs.next())
             {
-                long account_no1=rs.getLong(1);
-                int account_balance1=rs.getInt(3);
-                System.out.println("Account Number "+account_no1+" Has Account balance "+account_balance1);
-                account_balance1=account_balance1-amount_withdraw;
-                System.out.println("After Withdraw.."+account_balance1+" Withdraw Amount "+amount_withdraw);
+                int account_bal1=rs.getInt(1);
+                //int account_balance1=rs.getInt(3);
+                System.out.println("Account Balance Is "+account_bal1);
+                if(account_bal1>0)
+                {account_bal1=account_bal1-amount_withdraw;
+                System.out.println("After Withdraw Account Balance Is.."+account_bal1+" Withdraw Amount "+amount_withdraw);
                 result=true;
 
                 String query2 = "update account set account_balance=? where account_no=?";
                 PreparedStatement pst2 = con.prepareStatement(query2);
                 pst2.setLong(2,account_no);
-                pst.setInt(1,account_balance1);
-                if((pst.executeUpdate())==1)
+                pst2.setInt(1,account_bal1);
+                if((pst2.executeUpdate())==1)
                 {
                     System.out.println("Your Amount Debited..");
-                }
+                }}
+                else
+                    System.out.println("Account Balance Is Less Than Amount To Withdraw:"+account_bal1);
             }
 
             String query3 = "select transaction_balance from transaction where account_no=?";
             PreparedStatement pst3 = con.prepareStatement(query3);
             pst3.setLong(1,account_no);
-            ResultSet rs2 = pst.executeQuery();
-            while(rs.next())
+            ResultSet rs2 = pst3.executeQuery();
+            while(rs2.next())
             {
-                long account_no2=rs.getLong(6);
-                int transaction_id=rs.getInt(1);
-                System.out.println("Account Number "+account_no2+" has Transaction Id "+transaction_id);
+                int trans_bal=rs2.getInt(1);
+                //int transaction_id=rs.getInt(1);
+                System.out.println("Before/Last Transaction:"+ trans_bal);
 
-                String query4 = "update transaction set transaction_amount=? where account_no=?";
+                String query4 = "update transaction set transaction_balance=? where account_no=?";
                 PreparedStatement pst4 = con.prepareStatement(query4);
-                pst4.setLong(2,account_no2);
+                pst4.setLong(2,account_no);
                 pst4.setInt(1,amount_withdraw);
                 if((pst4.executeUpdate())==1)
                 {
@@ -188,6 +191,7 @@ public class DbOperation
                 int account_bal1=rs.getInt(1);
                 //int account_balance1=rs.getInt(3);
                 //System.out.println("Account Number "+account_bal1);
+                System.out.println("Account Balance Is "+account_bal1);
                 account_bal1=account_bal1+amount_deposit;
                 System.out.println("After Deposit Account Balance.."+account_bal1+" Deposited Amount "+amount_deposit);
                 result=true;
@@ -195,8 +199,8 @@ public class DbOperation
                 String query2 = "update account set account_balance=? where account_no=?";
                 PreparedStatement pst2 = con.prepareStatement(query2);
                 pst2.setLong(2,account_no);
-                pst.setInt(1,account_bal1);
-                if((pst.executeUpdate())==1)
+                pst2.setInt(1,account_bal1);
+                if((pst2.executeUpdate())==1)
                 {
                     System.out.println("Your Amount Credited..");
                 }
@@ -206,13 +210,13 @@ public class DbOperation
             PreparedStatement pst3 = con.prepareStatement(query3);
             pst3.setLong(1,account_no);
             ResultSet rs2 = pst.executeQuery();
-            while(rs.next())
+            while(rs2.next())
             {
-                int transaction_bal=rs.getInt(1);
+                int transaction_bal=rs2.getInt(1);
                 //int transaction_id=rs.getInt(1);
-                System.out.println("After Transaction:");
+                System.out.println("Before/Last Transaction:"+transaction_bal);
 
-                String query4 = "update transaction set transaction_amount=? where account_no=?";
+                String query4 = "update transaction set transaction_balance=? where account_no=?";
                 PreparedStatement pst4 = con.prepareStatement(query4);
                 pst4.setLong(2,account_no);
                 pst4.setInt(1,amount_deposit);
